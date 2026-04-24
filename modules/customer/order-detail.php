@@ -169,10 +169,7 @@ body { background:var(--surface); padding-bottom:2rem; }
       <?php $rows = [
         ['ID Pesanan','order_code'],['Tanggal Pesan','created_at','date'],['Estimasi Selesai','estimated_done','date'],
         ['Total Bayar','total_price','rupiah'],['DP Dibayar','dp_amount','rupiah'],
-      ]; foreach ($rows as $row):
-    [$lbl, $key, $fmt] = $row + [null, null, 'raw'];
-    $val = $order[$key];
-?>
+      ]; foreach ($rows as [$lbl,$key,$fmt='raw']): $val=$order[$key]; ?>
       <div class="d-flex justify-content-between py-2" style="border-bottom:1px solid var(--border);font-size:.88rem">
         <span style="color:var(--text-muted)"><?= $lbl ?></span>
         <strong style="color:var(--navy)"><?php
