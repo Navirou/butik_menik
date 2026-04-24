@@ -49,7 +49,7 @@ require_once __DIR__ . '/../../includes/layout-admin.php';
 ?>
 
 <div class="bm-page-header">
-  <h1>Selamat datang, <?= htmlspecialchars(explode(' ',$user['name'])[0]) ?> 👋</h1>
+  <h1>Selamat datang, <?= htmlspecialchars(explode(' ',$user['name'])[0]) ?></h1>
   <p><?= date('l, d F Y') ?> · Ringkasan operasional Butik Menik Modeste</p>
 </div>
 

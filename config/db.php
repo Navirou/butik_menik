@@ -2,7 +2,7 @@
 // config/db.php  –  PDO connection singleton
 
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'butik_menik');
+define('DB_NAME', 'menik_modeste');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_CHAR', 'utf8mb4');

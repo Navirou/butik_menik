@@ -496,7 +496,10 @@ body {
 
 <!-- ═══ TOP NAV ════════════════════════════════════════════════════════════ -->
 <nav class="top-nav">
-  <div class="brand"><i class="bi bi-scissors me-2"></i><span>Butik Menik</span> Modeste</div>
+  <div class="brand">
+  <img src="<?= APP_URL ?>/assets/logofix.png" alt="logo" style="height:70px; margin-right:8px;">
+  <span>Butik Menik</span> Modeste
+</div>
   <div class="nav-links d-none d-lg-flex">
     <a href="#" class="active" data-section="home"    onclick="showSection('home',this)">   <i class="bi bi-house"></i>Beranda</a>
     <a href="#" data-section="catalog"  onclick="showSection('catalog',this)"> <i class="bi bi-grid"></i>Katalog</a>
@@ -546,7 +549,7 @@ body {
         $selesaiOrders = count(array_filter($orders, fn($o) => $o['status'] === 'selesai'));
       ?>
       <p class="hero-greeting">Selamat datang kembali,</p>
-      <h1 class="hero-name"><?= htmlspecialchars(explode(' ', $user['name'])[0]) ?> <span>✨</span></h1>
+      <h1 class="hero-name"><?= htmlspecialchars(explode(' ', $user['name'])[0]) ?> <span></span></h1>
       <div class="hero-stats">
         <div class="hero-stat fade-up delay-1">
           <div class="stat-val"><?= $totalOrders ?></div>
@@ -855,7 +858,7 @@ body {
   <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content" style="border-radius:16px;overflow:hidden">
       <div class="modal-body text-center p-4">
-        <div style="font-size:2.5rem;margin-bottom:.5rem">👋</div>
+        <div style="font-size:2.5rem;margin-bottom:.5rem"></div>
         <h6 class="fw-bold">Keluar dari akun?</h6>
         <p class="text-muted small">Kamu akan diarahkan ke halaman login.</p>
         <div class="d-flex gap-2 justify-content-center mt-3">

@@ -35,7 +35,10 @@ $roleLabel  = $roleLabels[$role ?? 'owner'] ?? 'Panel';
 <!-- ═══ SIDEBAR ═══════════════════════════════════════════════ -->
 <aside class="bm-sidebar" id="bm-sidebar">
   <div class="bm-sidebar-brand">
-    <div class="app-name"><i class="bi bi-scissors me-2"></i><?= APP_NAME ?></div>
+    <div class="bm-brand d-flex align-items-center gap-2">
+  <img src="<?= APP_URL ?>/assets/logofix.png" alt="logo" style="height:40px;">
+  <span>Butik Menik Modeste</span>
+</div>
     <div class="app-role"><?= $roleLabel ?></div>
   </div>
   <nav class="bm-sidebar-nav">
