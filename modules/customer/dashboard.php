@@ -156,6 +156,7 @@ body {
 }
 
 /* ─── Bottom Nav (mobile) ───────────────────────────── */
+/* ─── Bottom Nav (mobile) ───────────────────────────── */
 .bottom-nav {
   display: none;
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 900;
@@ -165,21 +166,31 @@ body {
   box-shadow: 0 -4px 20px rgba(0,0,0,.2);
 }
 .bottom-nav-inner {
-  display: flex; height: 100%;
+  display: flex; 
+  height: 100%; 
+  width: 100%; /* INI KUNCI FIX-NYA AGAR PENUH */
+  justify-content: space-around;
 }
 .bn-item {
   flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   color: rgba(255,255,224,.55);
-  text-decoration: none; font-size: .65rem; font-weight: 500;
-  gap: 3px; position: relative;
+  text-decoration: none; font-weight: 500;
+  gap: 4px; position: relative;
   transition: color .15s;
-  border: none; background: none; cursor: pointer;
+  border: none; background: transparent; cursor: pointer;
+  padding: 0; width: 100%;
 }
-.bn-item i { font-size: 1.3rem; }
-.bn-item.active, .bn-item:hover {
-  color: var(--ivory);
+.bn-item i { font-size: 1.25rem; line-height: 1; }
+.bn-item span.bn-label {
+  font-size: .65rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  padding: 0 4px;
 }
+.bn-item.active, .bn-item:hover { color: var(--ivory); }
 .bn-item.active::before {
   content: '';
   position: absolute; top: 0; left: 50%; transform: translateX(-50%);
@@ -809,17 +820,33 @@ body {
 <!-- ═══ BOTTOM NAV (mobile) ════════════════════════════════════════════════ -->
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <button class="bn-item active" data-section="home"          onclick="showSection('home',this)">        <i class="bi bi-house-fill"></i>Beranda</button>
-    <button class="bn-item"        data-section="catalog"       onclick="showSection('catalog',this)">     <i class="bi bi-grid-fill"></i>Katalog</button>
-    <button class="bn-item"        data-section="orders"        onclick="showSection('orders',this)">      <i class="bi bi-bag-fill"></i>Pesanan</button>
-    <button class="bn-item"        data-section="notifications" onclick="showSection('notifications',this)">
-      <span class="position-relative d-inline-block">
-        <i class="bi bi-bell-fill"></i>
-        <?php if ($unreadCount > 0): ?><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:.5rem"><?= $unreadCount ?></span><?php endif; ?>
-      </span>
-      Notif
+    <button class="bn-item active" data-section="home" onclick="showSection('home',this)">
+      <i class="bi bi-house-fill"></i>
+      <span class="bn-label">Beranda</span>
     </button>
-    <button class="bn-item"        data-section="profile"       onclick="showSection('profile',this)">     <i class="bi bi-person-fill"></i>Profil</button>
+    <button class="bn-item" data-section="catalog" onclick="showSection('catalog',this)">
+      <i class="bi bi-grid-fill"></i>
+      <span class="bn-label">Katalog</span>
+    </button>
+    <button class="bn-item" data-section="orders" onclick="showSection('orders',this)">
+      <i class="bi bi-bag-fill"></i>
+      <span class="bn-label">Pesanan</span>
+    </button>
+    <button class="bn-item" data-section="notifications" onclick="showSection('notifications',this)">
+      <span class="position-relative d-inline-block" style="line-height:1">
+        <i class="bi bi-bell-fill"></i>
+        <?php if ($unreadCount > 0): ?>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:0.5rem; padding: 0.2em 0.4em;">
+            <?= $unreadCount ?>
+          </span>
+        <?php endif; ?>
+      </span>
+      <span class="bn-label">Notif</span>
+    </button>
+    <button class="bn-item" data-section="profile" onclick="showSection('profile',this)">
+      <i class="bi bi-person-fill"></i>
+      <span class="bn-label">Profil</span>
+    </button>
   </div>
 </nav>
 
