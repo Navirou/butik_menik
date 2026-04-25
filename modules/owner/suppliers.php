@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } elseif ($action === 'assign_material') {
         $matId = (int)$_POST['material_id'];
-        $supId = (int)$_POST['supplier_id'];
+        $supId = !empty($_POST['supplier_id']) ? (int)$_POST['supplier_id'] : null;
         $db->prepare('UPDATE materials SET supplier_id=? WHERE id=?')->execute([$supId,$matId]);
         $success = 'Supplier bahan berhasil diperbarui.';
     }
