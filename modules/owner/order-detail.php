@@ -107,8 +107,71 @@ require_once __DIR__ . '/../../includes/layout-admin.php';
           <?php endif; ?>
           <?php if ($order['design_file']): ?>
           <div class="col-12">
-            <div style="font-size:.75rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px">File Desain</div>
-            <a href="<?= APP_URL ?>/uploads/designs/<?= htmlspecialchars($order['design_file']) ?>" target="_blank" class="btn-navy mt-1" style="font-size:.78rem;padding:.3rem .7rem;display:inline-flex"><i class="bi bi-download me-1"></i>Unduh Desain</a>
+            <div style="font-size:.75rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.5rem">File Desain</div>
+            <?php
+              $designPath = APP_URL . '/uploads/designs/' . $order['design_file'];
+              $ext = strtolower(pathinfo($order['design_file'], PATHINFO_EXTENSION));
+              $isImage = in_array($ext, ['jpg','jpeg','png','webp','gif']);
+              $isPdf   = $ext === 'pdf';
+            ?>
+            <?php if ($isImage): ?>
+            <!-- Inline image preview with lightbox -->
+            <div style="position:relative;display:inline-block;max-width:100%">
+              <img src="<?= $designPath ?>"
+                   alt="Desain <?= htmlspecialchars($order['order_code']) ?>"
+                   id="design-img"
+                   style="max-width:100%;max-height:340px;border-radius:12px;border:2px solid var(--border);cursor:zoom-in;object-fit:contain;display:block;box-shadow:var(--shadow-md)"
+                   onclick="openLightbox('<?= $designPath ?>')"
+                   onerror="this.style.display='none';document.getElementById('design-fallback').style.display='flex'">
+              <a href="<?= $designPath ?>" download
+                 style="position:absolute;top:.5rem;right:.5rem;background:var(--navy);color:var(--ivory);border-radius:8px;padding:.3rem .6rem;font-size:.75rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:.3rem;opacity:.9">
+                <i class="bi bi-download"></i> Unduh
+              </a>
+            </div>
+            <!-- Fallback if image fails -->
+            <div id="design-fallback" style="display:none;align-items:center;gap:.75rem;padding:.85rem;background:var(--ivory);border-radius:10px;border:1px dashed var(--border)">
+              <i class="bi bi-file-earmark-image" style="font-size:2rem;color:var(--navy)"></i>
+              <div>
+                <div style="font-size:.85rem;font-weight:600;color:var(--navy)"><?= htmlspecialchars($order['design_file']) ?></div>
+                <a href="<?= $designPath ?>" target="_blank" style="font-size:.78rem;color:var(--text-muted)">Buka di tab baru</a>
+              </div>
+            </div>
+
+            <?php elseif ($isPdf): ?>
+            <!-- PDF inline preview -->
+            <div style="border:2px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm)">
+              <div style="background:var(--navy);padding:.6rem 1rem;display:flex;align-items:center;justify-content:space-between">
+                <span style="color:var(--ivory);font-size:.82rem;font-weight:600"><i class="bi bi-file-earmark-pdf-fill me-2"></i><?= htmlspecialchars($order['design_file']) ?></span>
+                <a href="<?= $designPath ?>" target="_blank" style="color:var(--gold-light);font-size:.78rem;text-decoration:none"><i class="bi bi-box-arrow-up-right me-1"></i>Buka penuh</a>
+              </div>
+              <iframe src="<?= $designPath ?>"
+                      width="100%"
+                      height="320"
+                      style="border:none;display:block"
+                      title="Desain PDF">
+              </iframe>
+              <div style="padding:.5rem 1rem;border-top:1px solid var(--border)">
+                <a href="<?= $designPath ?>" download class="btn-navy" style="font-size:.78rem;padding:.3rem .7rem">
+                  <i class="bi bi-download me-1"></i>Unduh PDF
+                </a>
+              </div>
+            </div>
+
+            <?php else: ?>
+            <!-- Other file types -->
+            <div style="display:flex;align-items:center;gap:.85rem;padding:.85rem;background:var(--ivory);border-radius:10px;border:1px solid var(--border)">
+              <div style="width:44px;height:44px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <i class="bi bi-file-earmark-fill" style="color:var(--ivory);font-size:1.2rem"></i>
+              </div>
+              <div style="flex:1;min-width:0">
+                <div style="font-weight:600;font-size:.88rem;color:var(--navy);word-break:break-all"><?= htmlspecialchars($order['design_file']) ?></div>
+                <div style="font-size:.75rem;color:var(--text-muted)">File desain pelanggan</div>
+              </div>
+              <a href="<?= $designPath ?>" download class="btn-navy" style="font-size:.78rem;padding:.35rem .75rem;flex-shrink:0">
+                <i class="bi bi-download me-1"></i>Unduh
+              </a>
+            </div>
+            <?php endif; ?>
           </div>
           <?php endif; ?>
         </div>
@@ -273,4 +336,27 @@ require_once __DIR__ . '/../../includes/layout-admin.php';
     </div>
   </div>
 </div>
+<!-- Lightbox Modal for design image -->
+<div id="lightbox" onclick="closeLightbox()"
+     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;align-items:center;justify-content:center;padding:1rem;cursor:zoom-out">
+  <div style="position:relative;max-width:90vw;max-height:90vh">
+    <img id="lightbox-img" src="" alt="Desain" style="max-width:90vw;max-height:85vh;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5)">
+    <button onclick="closeLightbox()" style="position:absolute;top:-14px;right:-14px;width:32px;height:32px;border-radius:50%;background:#ef4444;color:#fff;border:none;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3)">×</button>
+    <a id="lightbox-dl" href="" download style="position:absolute;bottom:-42px;left:50%;transform:translateX(-50%);background:var(--navy);color:var(--ivory);border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:600;text-decoration:none;white-space:nowrap"><i class="bi bi-download me-1"></i>Unduh Gambar</a>
+  </div>
+</div>
+<script>
+function openLightbox(src) {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox-dl').href  = src;
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
 <?php require_once __DIR__ . '/../../includes/layout-admin-footer.php'; ?>
