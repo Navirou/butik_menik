@@ -5,7 +5,7 @@ requireLogin([ROLE_STAFF]);
 $user = currentUser(); $role = 'staff'; $pageTitle = 'Dashboard Produksi'; $activeMenu = 'dashboard'; $notifCount = 0;
 $db = db();
 
-$totalQueue = $db->query(" SELECT COUNT(*) FROM orders  WHERE status NOT IN ('selesai','dibatalkan')")->fetchColumn();
+$totalQueue   = $db->query("SELECT COUNT(*) FROM orders WHERE status IN ('pemeriksaan_stok','produksi','qc')")->fetchColumn();
 $inProduction = $db->query("SELECT COUNT(*) FROM orders WHERE status='produksi'")->fetchColumn();
 $inQC         = $db->query("SELECT COUNT(*) FROM orders WHERE status='qc'")->fetchColumn();
 $doneToday    = $db->query("SELECT COUNT(*) FROM orders WHERE status='jadwal_ambil' AND DATE(updated_at)=CURDATE()")->fetchColumn();
